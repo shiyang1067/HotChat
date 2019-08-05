@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在线聊天室</title>
+</head>
+<body>
+    <input type="text" id="message">
+    <input type="button" value="发送消息" onclick="sendMsg()">
+    <p>接收到消息:</p>
+    <p id="server_message" style="background-color: #AAAAAA"></p>
+
+    <script>
+
+        var webSocket = null;
+
+        // 判断当前浏览器是否支持webSocket
+        if(window.WebSocket) {
+            webSocket = new WebSocket("ws://127.0.0.1:9001/ws");
+
+            webSocket.onopen = function () {
+                console.log("建立连接");
+            };
+            webSocket.onclose = function () {
+                console.log("断开连接");
+            };
+            webSocket.onmessage = function (ev) {
+                console.log("接收到服务器消息:" + ev.data);
+                var server_message = document.getElementById("server_message");
+                server_message.innerHTML += ev.data + "<br/>"
+            }
+        } else {
+            alert("当前浏览器不支持webSocket")
+        }
+
+        function sendMsg() {
+            var message = document.getElementById("message");
+            webSocket.send(message.value);
+        }
+    </script>
+</body>
+</html>
