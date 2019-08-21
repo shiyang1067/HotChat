@@ -18,6 +18,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
             IdleStateEvent idleStateEvent =(IdleStateEvent) evt;
             if (idleStateEvent.state() == IdleState.READER_IDLE){
                 System.out.println("读空闲");
+                System.out.println("test");
             }
             if (idleStateEvent.state() == IdleState.WRITER_IDLE){
                 System.out.println("写空闲");
